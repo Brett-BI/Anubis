@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Validator():
     def __init__(self):
         pass
@@ -9,7 +12,7 @@ class Validator():
 
 class StringValidator(Validator):
     def __init__(self):
-        pass
+        super().__init__()
 
     # by default, just about everything is going to evaluate properly to a string with additional conditions applied to the string...
     def evaluate(self, value: str) -> bool:
@@ -18,7 +21,7 @@ class StringValidator(Validator):
 
 class IntegerValidator(Validator):
     def __init__(self):
-        pass
+        super().__init__()
 
     def evaluate(self, value: str) -> bool:
         # Python is always going to evaluate :value as a string because it's coming from the CSV so, catch an error during a simple cast operation:
@@ -31,7 +34,7 @@ class IntegerValidator(Validator):
 
 class FloatValidator(Validator):
     def __init__(self):
-        pass
+        super().__init__()
 
     def evaluate(self, value: str) -> bool:
         try:
@@ -43,6 +46,7 @@ class FloatValidator(Validator):
 
 class BooleanValidator(Validator):
     def __init__(self):
+        super().__init__()
         self.vals = ["True", "true", "False", "false"] # might want to be more explicit because FaLSE or trUe is odd formatting...
 
     # boolean is goofy. anything with a value, event an empty string, will be truthy so this almost always evaluates to true
@@ -56,6 +60,18 @@ class BooleanValidator(Validator):
         #     return True
         # except ValueError:
         #     return False
+
+
+class DateTimeValidator(Validator):
+    def __init__(self):
+        super().__init__()
+
+    def evaluate(self, value: str) -> bool:
+        try:
+            v = datetime.strptime(value, '%B %d, %Y')
+            return True
+        except ValueError:
+            return False
     
 
 """
